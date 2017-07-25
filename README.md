@@ -1,8 +1,8 @@
 # lolskillbot
 
-Bot pra discord responsável por mostrar determinada habilidade (ou passiva) de algum champion
+Bot pra discord responsável por mostrar determinada habilidade (ou passiva), masteries, runas e ordem de skills de algum champion
 
->Discord bot that replies champion's passive or active skills
+>Discord bot that replies champion's passive or active skills, skill order, masteries or runes
 
 # Como usar / How to use
 
@@ -25,6 +25,7 @@ As informações são retiradas da League of Legends Wiki => http://leagueoflege
 !runes NomeDoChampion Role
 
 Estes comandos mostram respectivamente as mais comuns ordens de skills a serem evoluídas, masteries e runas do champion NomeDoChampion em determinada Role, informações retiradas do site http://champion.gg
+
 Caso seja a primeira vez no dia mostrando esse tipo de informação para um champion em determinada role, o bot demorará um certo tempo para responder (~1m) (Estamos trabalhando nisso)
 
 >!skillorder ChampionName Role
@@ -38,7 +39,9 @@ Caso seja a primeira vez no dia mostrando esse tipo de informação para um cham
 >If it is the first time some info is being displayed for a champion in a role, the bot will take some time to answer (~1m) (We're working on it!)
 
 Obs.: O(s) nome(s) do champion deve estar capitalizado (por exemplo Sona, Master Yi, Rek'Sai)
+
 As "teclas" de habilidades são "P" (passiva), "Q","W","E","R
+
 As roles são "ADC","Support","Top","Middle","Jungle"
 
 >Obs.: ChampionName must be capitalized (as in Sona, Master Yi, Rek'Sai)
@@ -57,3 +60,4 @@ https://discordapp.com/oauth2/authorize?&client_id=338158557344038923&scope=bot
 # Credits
 
 This was made possible with Discordrb API: https://github.com/meew0/discordrb <3
+And Maxwell's screencap (with some adjustments): https://github/Maxwell/screencap :D
