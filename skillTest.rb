@@ -2,6 +2,7 @@ require 'discordrb'
 require 'rubygems'
 require 'nokogiri'
 require 'restclient'
+require 'screencap'
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
 
@@ -273,6 +274,19 @@ bot.command :skill do |event, *args|
   else
     event.respond "Habilidade ou champion inválido hehe xD"
   end
+end
+
+bot.command :skillorder do |event, *args|
+  champ = args[0]
+  role = args[1]
+  f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+  screenshot = f.fetch(
+    :output => "./champsSO/#{champ}at#{role}.jpg",
+    :div => '.skill-order.clearfix'
+  )
+  event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
+    sleep(5)
+    event File.delete("./champsSO/#{champ}at#{role}.jpg")
 end
 
 bot.run
