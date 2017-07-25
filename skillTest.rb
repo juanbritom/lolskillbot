@@ -40,8 +40,10 @@ bot.command :tilt do |event|
 end
 
 bot.command :credits do |event|
-  event.respond "Feito por Juan 'Zuk' Brito, utilizando Discordrb e nokogiri => https://github.com/juanbritom/lolskillbot \n
-  Informações retiradas da League of Legends wikia - http://pt-br.leagueoflegends.wikia.com/wiki/League_of_Legends_Wiki"
+  event.respond "Made by Juan 'Zuk' Brito and Bruno 'PRL' Gabriel, using Discordrb, nokogiri, screencapture => https://github.com/juanbritom/lolskillbot \n
+  Infos about champion\'s skills from League of Legends wikia => http://leagueoflegends.wikia.com/wiki/League_of_Legends_Wiki\n
+  Infos about most recent mastery pages, runes and skill order from champion.gg => http://champion.gg\n
+  Tilt clips from our beloved tilt master (yi) cowsep => http://twitch.tv/cowsep"
 end
 
 bot.command(:invite, chain_usable: false) do |event|
@@ -288,6 +290,7 @@ bot.command :skillorder do |event, *args|
   end
   if champList.include? champ and roleList.include? role then
     champ.gsub!(' ','')
+    champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
     if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
       if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
@@ -332,6 +335,7 @@ bot.command :mastery do |event, *args|
   end
   if champList.include? champ and roleList.include? role then
     champ.gsub!(' ','')
+    champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
     if File.exists? "./champsMS/#{champ}at#{role}.jpg" then
       if (Time.now - File.mtime("./champsMS/#{champ}at#{role}.jpg")) > 86400 then
@@ -380,6 +384,7 @@ bot.command :runes do |event, *args|
   end
   if champList.include? champ and roleList.include? role then
     champ.gsub!(' ','')
+    champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
     if File.exists? "./champsRN/#{champ}at#{role}.jpg" then
       if (Time.now - File.mtime("./champsRN/#{champ}at#{role}.jpg")) > 86400 then
