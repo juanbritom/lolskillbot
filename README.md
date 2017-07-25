@@ -4,7 +4,7 @@ Bot pra discord responsável por mostrar determinada habilidade (ou passiva), ma
 
 >Discord bot that replies champion's passive or active skills, skill order, masteries or runes
 
-# Como usar / How to use
+# Como usar / Usage
 
 !skill NomeDoChampion TeclaDaHabilidade
 
@@ -60,4 +60,5 @@ https://discordapp.com/oauth2/authorize?&client_id=338158557344038923&scope=bot
 # Credits
 
 This was made possible with Discordrb API: https://github.com/meew0/discordrb <3
-And Maxwell's screencap (with some adjustments): https://github/Maxwell/screencap :D
+
+And Maxwell's screencap (with some adjustments): https://github.com/Maxwell/screencap :D
