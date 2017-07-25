@@ -55,7 +55,7 @@ bot.command :robo do |event|
   event.respond "ROBOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TIM XINHAAAAAAAAAAAAAAAAAAAAA"
 end
 
-bot.command :18555 do |event|
+bot.command :'18555' do |event|
   event.respond "D E Z O I T O M I L Q U I N H E N T O S E C I N Q U E N T A E C I N C O"
 end
 
@@ -68,10 +68,10 @@ bot.command :tilt do |event|
 end
 
 bot.command :credits do |event|
-  event.respond "Made by Juan 'Zuk' Brito and Bruno 'PRL' Gabriel, using Discordrb, nokogiri, screencapture => https://github.com/juanbritom/lolskillbot \n
-  Infos about champion\'s skills from League of Legends wikia => http://leagueoflegends.wikia.com/wiki/League_of_Legends_Wiki\n
-  Infos about most recent mastery pages, runes and skill order from champion.gg => http://champion.gg\n
-  Tilt clips from our beloved tilt master (yi) cowsep => http://twitch.tv/cowsep"
+  event.respond "Made by Juan 'Zuk' Brito and Bruno 'PRL' Gabriel, using Discordrb, nokogiri, screencapture => <https://github.com/juanbritom/lolskillbot> \n
+  Infos about champion\'s skills from League of Legends wikia => <http://leagueoflegends.wikia.com/wiki/League_of_Legends_Wiki>\n
+  Infos about most recent mastery pages, runes and skill order from champion.gg => <http://champion.gg>\n
+  Tilt clips from our beloved tilt master (yi) cowsep => <http://twitch.tv/cowsep>"
 end
 
 bot.command(:invite, chain_usable: false) do |event|
@@ -299,7 +299,7 @@ bot.command :skill do |event, *args|
       end
     end
     if champ.include? "Yasuo" then
-      event.respond "http://www.apaecuritiba.org.br"
+      event.respond "<http://www.apaecuritiba.org.br>"
     end
     event.respond img
     event.respond response
