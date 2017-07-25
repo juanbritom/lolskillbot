@@ -35,6 +35,34 @@ bot.command :hehe do |event|
     event.respond "xd"
 end
 
+bot.command :rouli do |event|
+  event.respond "gais"
+end
+
+bot.command :lago do |event|
+  event.respond "AQUI LAGO AÍ?"
+end
+
+bot.command :jungle do |event|
+  event.respond "mula"
+end
+
+bot.command :violence do |event|
+  event.respond "SPEED AND MOMENTUM"
+end
+
+bot.command :robo do |event|
+  event.respond "ROBOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TIM XINHAAAAAAAAAAAAAAAAAAAAA"
+end
+
+bot.command :18555 do |event|
+  event.respond "D E Z O I T O M I L Q U I N H E N T O S E C I N Q U E N T A E C I N C O"
+end
+
+bot.command :salve do |event|
+  event.respond "çauve"
+end
+
 bot.command :tilt do |event|
     event.respond "T I O  T Á  N Ã O \n #{tiltList.sample}"
 end
