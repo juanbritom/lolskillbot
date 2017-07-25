@@ -15,8 +15,20 @@ champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Bl
 habList = ["P","Q","W","E","R"]
 tiltList = ["https://clips.twitch.tv/TrustworthyGlamorousWhaleDoubleRainbow",
    "https://clips.twitch.tv/FragileTransparentMeatloafUncleNox",
+<<<<<<< HEAD
    "https://clips.twitch.tv/SpotlessSpeedyPassionfruitBCouch",
    "https://clips.twitch.tv/SwissAltruisticTortoiseSuperVinlin"]
+=======
+   "https://clips.twitch.tv/SpotlessSpeedyPassionfruitBCouch"]
+
+#this is a very important part of the code, please stay away
+bot.command :HI do |event|
+  event.respond "HIIIIIIIIIIIIIIIIIIIIIUIIIIIIIIIIIIIIHUHIIIIIIIIIIIIIIIII #{event.user.name}!"
+end
+
+
+
+>>>>>>> c2ee70c8894768e60e42a48f33ec2f332425cc31
 #this is a test command, dont use it o.o
 bot.command :fkU do |event|
     event.respond "fk u #{event.user.name}!"
@@ -124,7 +136,7 @@ bot.command :skillN do |event, *args|
     end
     event.respond response
   else
-    even.respond "Habilidade ou champion inválido hehe xD"
+    event.respond "Habilidade ou champion inválido hehe xD"
   end
 end
 
@@ -265,7 +277,7 @@ bot.command :skill do |event, *args|
     event.respond img
     event.respond response
   else
-    even.respond "Habilidade ou champion inválido hehe xD"
+    event.respond "Habilidade ou champion inválido hehe xD"
   end
 end
 
