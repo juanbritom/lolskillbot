@@ -3,9 +3,10 @@ require 'rubygems'
 require 'nokogiri'
 require 'restclient'
 require 'screencap'
+require 'fastimage'
+
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
-
 champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Blitzcrank", "Brand", "Caitlyn", "Cassiopeia", "Cho'Gath", "Corki", "Dr Mundo", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz",
   "Galio","Gangplank", "Garen", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Irelia", "Janna", "Jarvan IV", "Jax", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kog'Maw", "LeBlanc", "Lee Sin",
   "Leona", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Miss Fortune", "Mordekaiser", "Morgana", "Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Pantheon", "Poppy",
@@ -14,6 +15,7 @@ champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Bl
   "Zed","Vi","Syndra","Rengar","Nami","Kha'Zix","Jayce","Elise","Draven","Darius","Diana","Aatrox","Jinx","Lissandra","Lucian","Quinn","Thresh","Yasuo","Zac","Azir","Braum","Gnar","Kalista","Rek'Sai","Vel'Koz",
   "Bardo","Ekko","Illaoi","Kindred","Tahm Kench","Aurelion Sol","Camille","Ivern","Jhin","Kled","Taliyah","Xayah","Rakan","Kayn"]
 habList = ["P","Q","W","E","R"]
+roleList = ["ADC","Jungle","Middle","Support","Top"]
 tiltList = ["https://clips.twitch.tv/TrustworthyGlamorousWhaleDoubleRainbow",
    "https://clips.twitch.tv/FragileTransparentMeatloafUncleNox",
    "https://clips.twitch.tv/SwissAltruisticTortoiseSuperVinlin",
@@ -277,16 +279,143 @@ bot.command :skill do |event, *args|
 end
 
 bot.command :skillorder do |event, *args|
-  champ = args[0]
-  role = args[1]
-  f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
-  screenshot = f.fetch(
-    :output => "./champsSO/#{champ}at#{role}.jpg",
-    :div => '.skill-order.clearfix'
-  )
-  event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
-    sleep(5)
-    event File.delete("./champsSO/#{champ}at#{role}.jpg")
+  if args.length.eql? 2 then
+    champ = args[0]
+    role = args[1]
+  elsif args.length.eql? 3 then
+    champ = "#{args[0]} #{args[1]}"
+    role = args[2]
+  end
+  if champList.include? champ and roleList.include? role then
+    champ.gsub!(' ','')
+    #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
+    if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
+      if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
+        f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+        screenshot = f.fetch(
+          :output => "./champsSO/#{champ}at#{role}.jpg",
+          :div => '.skill-order.clearfix'
+          )
+        while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
+          screenshot = f.fetch(
+            :output => "./champsSO/#{champ}at#{role}.jpg",
+            :div => '.skill-order.clearfix'
+            )
+        end
+      end
+    else
+      f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+      screenshot = f.fetch(
+        :output => "./champsSO/#{champ}at#{role}.jpg",
+        :div => '.skill-order.clearfix'
+        )
+      while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
+        screenshot = f.fetch(
+          :output => "./champsSO/#{champ}at#{role}.jpg",
+          :div => '.skill-order.clearfix'
+          )
+      end
+    end
+    event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
+  else
+    event.respond "Role ou champion inválido hehe xD"
+  end
+end
+
+bot.command :mastery do |event, *args|
+  if args.length.eql? 2 then
+    champ = args[0]
+    role = args[1]
+  elsif args.length.eql? 3 then
+    champ = "#{args[0]} #{args[1]}"
+    role = args[2]
+  end
+  if champList.include? champ and roleList.include? role then
+    champ.gsub!(' ','')
+    #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
+    if File.exists? "./champsMS/#{champ}at#{role}.jpg" then
+      if (Time.now - File.mtime("./champsMS/#{champ}at#{role}.jpg")) > 86400 then
+        f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+        screenshot = f.fetch(
+          :output => "./champsMS/#{champ}at#{role}.jpg",
+          :div => '.mastery-container.clearfix',
+          :width => 1364
+          )
+        while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
+          screenshot = f.fetch(
+            :output => "./champsMS/#{champ}at#{role}.jpg",
+            :div => '.mastery-container.clearfix',
+            :width => 1364
+            )
+        end
+      end
+    else
+      f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+      screenshot = f.fetch(
+        :output => "./champsMS/#{champ}at#{role}.jpg",
+        :div => '.mastery-container.clearfix',
+        :width => 1364
+        )
+      while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
+        screenshot = f.fetch(
+          :output => "./champsMS/#{champ}at#{role}.jpg",
+          :div => '.mastery-container.clearfix',
+          :width => 1364
+          )
+      end
+    end
+    event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
+  else
+    event.respond "Role ou champion inválido hehe xD"
+  end
+end
+
+bot.command :runes do |event, *args|
+  if args.length.eql? 2 then
+    champ = args[0]
+    role = args[1]
+  elsif args.length.eql? 3 then
+    champ = "#{args[0]} #{args[1]}"
+    role = args[2]
+  end
+  if champList.include? champ and roleList.include? role then
+    champ.gsub!(' ','')
+    #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
+    if File.exists? "./champsRN/#{champ}at#{role}.jpg" then
+      if (Time.now - File.mtime("./champsRN/#{champ}at#{role}.jpg")) > 86400 then
+        f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+        screenshot = f.fetch(
+          :output => "./champsRN/#{champ}at#{role}.jpg",
+          :div => '.rune-collection',
+          :width => 1364
+          )
+        while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
+          screenshot = f.fetch(
+            :output => "./champsRN/#{champ}at#{role}.jpg",
+            :div => '.rune-collection',
+            :width => 1364
+            )
+        end
+      end
+    else
+      f = Screencap::Fetcher.new("http://champion.gg/champion/#{champ}/#{role}")
+      screenshot = f.fetch(
+        :output => "./champsRN/#{champ}at#{role}.jpg",
+        :div => '.rune-collection',
+        :width => 1364
+        )
+      while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
+        screenshot = f.fetch(
+          :output => "./champsRN/#{champ}at#{role}.jpg",
+          :div => '.rune-collection',
+          :width => 1364
+          )
+      end
+    end
+    event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
+  else
+    event.respond "Role ou champion inválido hehe xD"
+  end
 end
 
 bot.run
