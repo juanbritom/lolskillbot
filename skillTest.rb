@@ -31,6 +31,10 @@ bot.command :fkU do |event|
     event.respond "fk u #{event.user.name}!"
 end
 
+bot.command :vlw do |event|
+  event.respond "enois \n https://clips.twitch.tv/WiseVainDoge4Head"
+end
+
 bot.command :hehe do |event|
     event.respond "xd"
 end
