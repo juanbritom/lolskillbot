@@ -8,7 +8,7 @@ require 'fastimage'
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
 Capybara.register_driver :poltergeist do |app|
-  Capybara::poltergeist::Driver.new(app, :js_errors => false)
+  Capybara::Poltergeist::Driver.new(app, :js_errors => false)
 end
 page = Capybara::Session.new(:poltergeist)
 
