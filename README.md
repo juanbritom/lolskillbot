@@ -61,4 +61,4 @@ https://discordapp.com/oauth2/authorize?&client_id=338158557344038923&scope=bot
 
 This was made possible with Discordrb API: https://github.com/meew0/discordrb <3
 
-And Maxwell's screencap (with some adjustments): https://github.com/Maxwell/screencap :D
+And Poltergeist (as well as Capybara, PhantomJS) :D

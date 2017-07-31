@@ -1,7 +1,19 @@
-require 'screencap'
+# require 'screencap'
+#
+#   f = Screencap::Fetcher.new('https://br.op.gg/summoner/userName=Zuk')
+#   screenshot = f.fetch(
+#     :output => './hehe.png',
+#     :div => '.TierBox.Box'
+#   )
 
-  f = Screencap::Fetcher.new('http://champion.gg/champion/Kayn/Top')
-  screenshot = f.fetch(
-    :output => './champsM/kaytop.png',
-    :div => '.skill-order.clearfix'
-  )
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::poltergeist::Driver.new(app, :js_errors => false)
+end
+
+page = Capybara::Session.new(:poltergeist)
+
+page.visit('http://champion.gg/champion/Twitch/ADC')
+session.save_screenshot('./heeh1.png', :selector => '.skill-order.clearfix')
