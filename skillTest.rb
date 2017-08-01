@@ -7,10 +7,6 @@ require 'fastimage'
 
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, :js_errors => false)
-end
-session = Capybara::Session.new(:poltergeist)
 
 champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Blitzcrank", "Brand", "Caitlyn", "Cassiopeia", "Cho'Gath", "Corki", "Dr Mundo", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz",
   "Galio","Gangplank", "Garen", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Irelia", "Janna", "Jarvan IV", "Jax", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kog'Maw", "LeBlanc", "Lee Sin",
@@ -331,21 +327,7 @@ bot.command :skillorder do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
-      if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
-        session.visit("http://champion.gg/champion/#{champ}/#{role}")
-        session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
-        while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
-          session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
-        end
-      end
-    else
-      session.visit("http://champion.gg/champion/#{champ}/#{role}")
-      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
-      while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
-        session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
-      end
-    end
+    skillordsearch(champ, role)
     event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -364,21 +346,7 @@ bot.command :masteries do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    if File.exists? "./champsMS/#{champ}at#{role}.jpg" then
-      if (Time.now - File.mtime("./champsMS/#{champ}at#{role}.jpg")) > 86400 then
-        session.visit("http://champion.gg/champion/#{champ}/#{role}")
-        session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
-        while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
-          session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
-        end
-      end
-    else
-      session.visit("http://champion.gg/champion/#{champ}/#{role}")
-      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
-      while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
-        session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
-      end
-    end
+    masteriessearch(champ, role)
     event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -397,25 +365,80 @@ bot.command :runes do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    if File.exists? "./champsRN/#{champ}at#{role}.jpg" then
-      if (Time.now - File.mtime("./champsRN/#{champ}at#{role}.jpg")) > 86400 then
-        session.visit("http://champion.gg/champion/#{champ}/#{role}")
-        session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
-        while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
-          session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
-        end
+    runessearch(champ, role)
+    event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
+  else
+    event.respond "Role ou champion inválido hehe xD"
+  end
+end
+
+def skillordsearch(champ,role)
+  if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
+    if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
+      session = createSession()
+      session.visit("http://champion.gg/champion/#{champ}/#{role}")
+      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
+      while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
+        session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
       end
-    else
+    end
+  else
+    session = createSession()
+    session.visit("http://champion.gg/champion/#{champ}/#{role}")
+    session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
+    while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
+      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => '.skill-order.clearfix')
+    end
+  end
+end
+
+def masteriessearch(champ, role)
+  if File.exists? "./champsMS/#{champ}at#{role}.jpg" then
+    if (Time.now - File.mtime("./champsMS/#{champ}at#{role}.jpg")) > 86400 then
+      session = createSession()
+      session.visit("http://champion.gg/champion/#{champ}/#{role}")
+      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
+      while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
+        session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
+      end
+    end
+  else
+    session = createSession()
+    session.visit("http://champion.gg/champion/#{champ}/#{role}")
+    session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
+    while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
+      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => '.mastery-container.clearfix')
+    end
+  end
+end
+
+def runessearch(champ, role)
+  if File.exists? "./champsRN/#{champ}at#{role}.jpg" then
+    if (Time.now - File.mtime("./champsRN/#{champ}at#{role}.jpg")) > 86400 then
+      session = createSession()
       session.visit("http://champion.gg/champion/#{champ}/#{role}")
       session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
       while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
         session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
       end
     end
-    event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
   else
-    event.respond "Role ou champion inválido hehe xD"
+    session = createSession()
+    session.visit("http://champion.gg/champion/#{champ}/#{role}")
+    session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
+    while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
+      session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => '.rune-collection')
+    end
   end
+end
+
+def createSession
+  Capybara.register_driver :poltergeist do |app|
+    options = {:js_errors => false, :window_size => [1366,768]}
+    Capybara::Poltergeist::Driver.new(app, options)
+  end
+  session = Capybara::Session.new(:poltergeist)
+  return session
 end
 
 bot.run
