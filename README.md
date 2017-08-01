@@ -20,7 +20,7 @@ As informações são retiradas da League of Legends Wiki => http://leagueoflege
 
 !skillorder NomeDoChampion Role
 
-!mastery NomeDoChampion Role
+!masteries NomeDoChampion Role
 
 !runes NomeDoChampion Role
 
