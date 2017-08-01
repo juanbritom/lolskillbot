@@ -8,7 +8,7 @@ require 'fastimage'
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
 
-infooptions = {:site => 'http://champion.gg/champion/', :append => '#{champ}/#{role}', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix'}
+infooptions = {:site => 'http://champion.gg/champion/', :append => 'champ/role', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix'}
 
 champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Blitzcrank", "Brand", "Caitlyn", "Cassiopeia", "Cho'Gath", "Corki", "Dr Mundo", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz",
   "Galio","Gangplank", "Garen", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Irelia", "Janna", "Jarvan IV", "Jax", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kog'Maw", "LeBlanc", "Lee Sin",
@@ -329,7 +329,7 @@ bot.command :skillorder do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    skillordsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:skillorddiv])
+    skillordsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:skillorddiv])
     event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -348,7 +348,7 @@ bot.command :masteries do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    masteriessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:masteriesdiv])
+    masteriessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:masteriesdiv])
     event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -367,7 +367,7 @@ bot.command :runes do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    runessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:runesdiv])
+    runessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:runesdiv])
     event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
