@@ -329,7 +329,8 @@ bot.command :skillorder do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    skillordsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:skillorddiv])
+    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
+    skillordsearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:skillorddiv])
     event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -348,7 +349,8 @@ bot.command :masteries do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    masteriessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:masteriesdiv])
+    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
+    masteriessearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:masteriesdiv])
     event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -367,7 +369,8 @@ bot.command :runes do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    runessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}".gsub!('champ',"#{champ}").gsub!('role',"#{role}"), infooptions[:runesdiv])
+    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
+    runessearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:runesdiv])
     event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -375,6 +378,7 @@ bot.command :runes do |event, *args|
 end
 
 def skillordsearch(champ, role, site, div)
+  print site
   if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()
