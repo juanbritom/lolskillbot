@@ -329,7 +329,7 @@ bot.command :skillorder do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    skillordsearch(champ, role)
+    skillordsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:skillorddiv])
     event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -348,7 +348,7 @@ bot.command :masteries do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    masteriessearch(champ, role)
+    masteriessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:masteriesdiv])
     event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -367,69 +367,69 @@ bot.command :runes do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    runessearch(champ, role)
+    runessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append]}", infooptions[:runesdiv])
     event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
   end
 end
 
-def skillordsearch(champ,role)
+def skillordsearch(champ, role, site, div)
   if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()
-      session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => infooptions[:skillorddiv])
+      session.visit(site)
+      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => div)
       while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
-        session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => infooptions[:skillorddiv])
+        session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => div)
       end
     end
   else
     session = createSession()
-    session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-    session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => infooptions[:skillorddiv])
+    session.visit(site)
+    session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => div)
     while (FastImage.size("./champsSO/#{champ}at#{role}.jpg")[0] > 500)
-      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => infooptions[:skillorddiv])
+      session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => div)
     end
   end
 end
 
-def masteriessearch(champ, role)
+def masteriessearch(champ, role, site, div)
   if File.exists? "./champsMS/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsMS/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()
-      session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => infooptions[:masteriesdiv])
+      session.visit(site)
+      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => div)
       while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
-        session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => infooptions[:masteriesdiv])
+        session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => div)
       end
     end
   else
     session = createSession()
-    session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-    session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => infooptions[:masteriesdiv])
+    session.visit(site)
+    session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => div)
     while (FastImage.size("./champsMS/#{champ}at#{role}.jpg")[0] > 650)
-      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => infooptions[:masteriesdiv])
+      session.save_screenshot("./champsMS/#{champ}at#{role}.jpg", :selector => div)
     end
   end
 end
 
-def runessearch(champ, role)
+def runessearch(champ, role, site, div)
   if File.exists? "./champsRN/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsRN/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()
-      session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-      session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => infooptions[:runesdiv])
+      session.visit(site)
+      session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => div)
       while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
-        session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => infooptions[:runesdiv])
+        session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => div)
       end
     end
   else
     session = createSession()
-    session.visit("#{infooptions[:site]}#{infooptions[:append]}")
-    session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => infooptions[:runesdiv])
+    session.visit(site)
+    session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => div)
     while (FastImage.size("./champsRN/#{champ}at#{role}.jpg")[0] > 650)
-      session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => infooptions[:runesdiv])
+      session.save_screenshot("./champsRN/#{champ}at#{role}.jpg", :selector => div)
     end
   end
 end
