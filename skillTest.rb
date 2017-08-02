@@ -8,7 +8,7 @@ require 'fastimage'
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
 
-infooptions = {:site => 'http://champion.gg/champion/', :append => 'champ/role', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix'}
+infooptions = {:site => 'http://champion.gg/champion/', :append => 'champ/role', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix', :builddiv => '.col-xs-12.col-sm-12.col-md-7'}
 
 champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Blitzcrank", "Brand", "Caitlyn", "Cassiopeia", "Cho'Gath", "Corki", "Dr Mundo", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz",
   "Galio","Gangplank", "Garen", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Irelia", "Janna", "Jarvan IV", "Jax", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kog'Maw", "LeBlanc", "Lee Sin",
@@ -349,8 +349,7 @@ bot.command :masteries do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
-    masteriessearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:masteriesdiv])
+    masteriessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append].gsub('champ',"#{champ}").gsub('role',"#{role}")}", infooptions[:masteriesdiv])
     event.send_file(File.open("./champsMS/#{champ}at#{role}.jpg", 'r'), caption: "Masteries for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
@@ -369,16 +368,53 @@ bot.command :runes do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
-    runessearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:runesdiv])
+    runessearch(champ, role, "#{infooptions[:site]}#{infooptions[:append].gsub('champ',"#{champ}").gsub('role',"#{role}")}", infooptions[:runesdiv])
     event.send_file(File.open("./champsRN/#{champ}at#{role}.jpg", 'r'), caption: "Runes for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
   end
 end
 
+bot.command :build do |event, *args|
+  if args.length.eql? 2 then
+    champ = args[0]
+    role = args[1]
+  elsif args.length.eql? 3 then
+    champ = "#{args[0]} #{args[1]}"
+    role = args[2]
+  end
+  if champList.include? champ and roleList.include? role then
+    champ.gsub!(' ','')
+    champ.gsub!("\'",'')
+    #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
+    buildsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append].gsub('champ',"#{champ}").gsub('role',"#{role}")}", infooptions[:builddiv])
+    event.send_file(File.open("./champsBD/#{champ}at#{role}.jpg", 'r'), caption: "Build for #{role} #{champ}")
+  else
+    event.respond "Role ou champion inválido hehe xD"
+  end
+end
+
+def buildsearch(champ,role,site,div)
+  if File.exists? "./champsBD/#{champ}at#{role}.jpg" then
+    if (Time.now - File.mtime("./champsBD/#{champ}at#{role}.jpg")) > 86400 then
+      session = createSession()
+      session.visit(site)
+      session.save_screenshot("./champsBD/#{champ}at#{role}.jpg", :selector => div)
+      while (FastImage.size("./champsBD/#{champ}at#{role}.jpg")[0] > 1000)
+        session.save_screenshot("./champsBD/#{champ}at#{role}.jpg", :selector => div)
+      end
+    end
+  else
+    session = createSession()
+    session.visit(site)
+    session.save_screenshot("./champsBD/#{champ}at#{role}.jpg", :selector => div)
+    while (FastImage.size("./champsBD/#{champ}at#{role}.jpg")[0] > 1000)
+      session.save_screenshot("./champsBD/#{champ}at#{role}.jpg", :selector => div)
+    end
+  end
+end
+
 def skillordsearch(champ, role, site, div)
-  print site
   if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()

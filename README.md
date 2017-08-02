@@ -1,8 +1,8 @@
 # lolskillbot
 
-Bot pra discord responsável por mostrar determinada habilidade (ou passiva), masteries, runas e ordem de skills de algum champion
+Bot pra discord responsável por mostrar determinada habilidade (ou passiva), masteries, runas, ordem de skills e builds mais comuns de algum champion
 
->Discord bot that replies champion's passive or active skills, skill order, masteries or runes
+>Discord bot that replies champion's passive or active skills, skill order, masteries, runes or build
 
 # Como usar / Usage
 
@@ -24,31 +24,35 @@ As informações são retiradas da League of Legends Wiki => http://leagueoflege
 
 !runes NomeDoChampion Role
 
-Estes comandos mostram respectivamente as mais comuns ordens de skills a serem evoluídas, masteries e runas do champion NomeDoChampion em determinada Role, informações retiradas do site http://champion.gg
+!build NomeDoChampion Role
 
-Caso seja a primeira vez no dia mostrando esse tipo de informação para um champion em determinada role, o bot demorará um certo tempo para responder (~1m) (Estamos trabalhando nisso)
+Estes comandos mostram respectivamente as mais comuns ordens de skills a serem evoluídas, masteries, runas ou build do champion NomeDoChampion em determinada Role, informações retiradas do site http://champion.gg
+
+Caso seja a primeira vez no dia mostrando esse tipo de informação para um champion em determinada role, o bot demorará um certo tempo para responder (~20s) (Estamos trabalhando nisso)
 
 >!skillorder ChampionName Role
 
->!mastery ChampionName Role
+>!masteries ChampionName Role
 
 >!runes ChampionName Role
 
->These commands show the most common skill order, mastery page or runes for any champion playing any role. Infos from http://champion.gg
+>!build ChampionName Role
 
->If it is the first time some info is being displayed for a champion in a role, the bot will take some time to answer (~1m) (We're working on it!)
+>These commands show the most common skill order, mastery page, runes or build for any champion playing any role. Infos from http://champion.gg
+
+>If it is the first time some info is being displayed for a champion in a role, the bot will take some time to answer (~20s) (We're working on it!)
 
 Obs.: O(s) nome(s) do champion deve estar capitalizado (por exemplo Sona, Master Yi, Rek'Sai)
 
 As "teclas" de habilidades são "P" (passiva), "Q","W","E","R
 
-As roles são "ADC","Support","Top","Middle","Jungle"
+As roles são "ADC","Support","Top","Middle","Jungle". É importante observar que algumas combinações role-champion mais "exóticas" não terão informações disponíveis.
 
 >Obs.: ChampionName must be capitalized (as in Sona, Master Yi, Rek'Sai)
 
 >The skills "keys" are "P" (passive), "Q","W","E","R
 
->Roles are "ADC","Support","Top","Middle","Jungle"
+>Roles are "ADC","Support","Top","Middle","Jungle". Some champion-role infos might not be available
 
 # Invite link
 
