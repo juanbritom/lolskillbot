@@ -329,8 +329,7 @@ bot.command :skillorder do |event, *args|
     champ.gsub!(' ','')
     champ.gsub!("\'",'')
     #procura existencia da imagem e se sua data é muito antiga (perde relevancia no meta) (86400 = 1 dia em s)
-    append = infooptions[:append].gsub!('champ',"#{champ}").gsub!('role',"#{role}")
-    skillordsearch(champ, role, "#{infooptions[:site]}#{append}", infooptions[:skillorddiv])
+    skillordsearch(champ, role, "#{infooptions[:site]}#{infooptions[:append].gsub('champ',"#{champ}").gsub('role',"#{role}")}", infooptions[:skillorddiv])
     event.send_file(File.open("./champsSO/#{champ}at#{role}.jpg", 'r'), caption: "Skill Order for #{role} #{champ}")
   else
     event.respond "Role ou champion inválido hehe xD"
