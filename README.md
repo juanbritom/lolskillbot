@@ -56,8 +56,8 @@ As roles são "ADC","Support","Top","Middle","Jungle". É importante observar qu
 
 # Invite link
 
-O bot está sofrendo constantes modificações e, consequentemente, períodos constantes de inatividade
->The bot is still under development and so, it may not be online at all times
+O bot está sofrendo constantes modificações e, consequentemente, períodos constantes de inatividade (quase nunca ta online hehe xd)
+>The bot is still under development and so, it may not be online at all times (it's hardly ever online hehe xd)
 
 https://discordapp.com/oauth2/authorize?&client_id=338158557344038923&scope=bot
 
