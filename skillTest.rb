@@ -8,7 +8,7 @@ require 'fastimage'
 
 bot = Discordrb::Commands::CommandBot.new token: 'MzM4MTU4NTU3MzQ0MDM4OTIz.DFT9AQ.J4HNhIFYL1lwibtspDoYh_Hsg3U', client_id: 338158557344038923, prefix: '!'
 
-infooptions = {:site => 'http://champion.gg/champion/', :append => 'champ/role', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix', :builddiv => '.col-xs-12.col-sm-12.col-md-7'}
+infooptions = {:site => 'http://champion.gg/champion/', :append => 'champ/role', :skillorddiv => '.skill-order.clearfix', :runesdiv => '.rune-collection', :masteriesdiv => '.mastery-container.clearfix', :builddiv => '.row:nth-child(2)'}
 
 champList = ["Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Blitzcrank", "Brand", "Caitlyn", "Cassiopeia", "Cho'Gath", "Corki", "Dr Mundo", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz",
   "Galio","Gangplank", "Garen", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Irelia", "Janna", "Jarvan IV", "Jax", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kog'Maw", "LeBlanc", "Lee Sin",
@@ -414,6 +414,7 @@ def buildsearch(champ,role,site,div)
 end
 
 def skillordsearch(champ, role, site, div)
+  # puts 'hehe'
   if File.exists? "./champsSO/#{champ}at#{role}.jpg" then
     if (Time.now - File.mtime("./champsSO/#{champ}at#{role}.jpg")) > 86400 then
       session = createSession()
@@ -424,6 +425,7 @@ def skillordsearch(champ, role, site, div)
       end
     end
   else
+    # puts 'hehe'
     session = createSession()
     session.visit(site)
     session.save_screenshot("./champsSO/#{champ}at#{role}.jpg", :selector => div)
@@ -475,11 +477,19 @@ end
 
 def createSession
   Capybara.register_driver :poltergeist do |app|
-    options = {:js_errors => false, :window_size => [1366,768]}
+    options = {:js_errors => false, :window_size => [1366,768],
+                     logger: NilLogger.new,
+                     phantomjs_logger: STDOUT,
+                     phantomjs_options: ['--debug=true'],
+                     debug: false}
     Capybara::Poltergeist::Driver.new(app, options)
   end
   session = Capybara::Session.new(:poltergeist)
   return session
+end
+
+class NilLogger
+  def puts * ; end
 end
 
 bot.run
